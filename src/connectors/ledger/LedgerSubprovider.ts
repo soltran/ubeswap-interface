@@ -101,12 +101,14 @@ export class LedgerSubprovider extends BaseWalletSubprovider {
     if (txParams.from === undefined || !addressUtils.isAddress(txParams.from)) {
       throw new Error(WalletSubproviderErrors.FromAddressMissingOrInvalid)
     }
+    console.log(txParams)
     const initialDerivedKeyInfo = await this._initialDerivedKeyInfoAsync()
     const derivedKeyInfo = this._findDerivedKeyInfoForAddress(initialDerivedKeyInfo, txParams.from)
 
     this._ledgerClientIfExists = await this._createLedgerClientAsync()
 
     const tx = new EthereumTx(txParams)
+    console.log(tx)
 
     // Set the EIP155 bits
     const vIndex = 6
@@ -119,6 +121,7 @@ export class LedgerSubprovider extends BaseWalletSubprovider {
     const txHex = tx.serialize().toString('hex')
     try {
       const fullDerivationPath = derivedKeyInfo.derivationPath
+      console.log(fullDerivationPath)
       const result = await this._ledgerClientIfExists.signTransaction(fullDerivationPath, txHex)
       // Store signature in transaction
       tx.r = Buffer.from(result.r, 'hex')
