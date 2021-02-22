@@ -1,6 +1,5 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
-import Card from 'components/Card'
 import { ValoraConnector } from 'connectors/valora/ValoraConnector'
 import { removeQueryParams, requestValoraAuth } from 'connectors/valora/valoraUtils'
 import React, { useEffect, useState } from 'react'
@@ -196,8 +195,11 @@ export default function WalletModal({
       return
     }
 
+    console.log(connector)
+
     connector &&
       (await activate(connector, undefined, true).catch(error => {
+        console.log(error)
         if (error instanceof UnsupportedChainIdError) {
           activate(connector) // a little janky...can't use setError because the connector isn't set
         } else {
@@ -345,13 +347,6 @@ export default function WalletModal({
               setPendingError={setPendingError}
               tryActivation={tryActivation}
             />
-          ) : !isMobile ? (
-            <Card>
-              <p>Desktop wallet support is coming soon.</p>
-              <p>
-                Follow <ExternalLink href="https://twitter.com/Ubeswap">Ubeswap</ExternalLink> for updates!
-              </p>
-            </Card>
           ) : (
             <OptionGrid>{getOptions()}</OptionGrid>
           )}
