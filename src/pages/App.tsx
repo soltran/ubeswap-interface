@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import { AccountAuthResponseSuccess } from '@celo/utils'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
@@ -20,6 +21,8 @@ import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
 import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+import { useValoraAccount } from 'state/user/hooks'
+import { parseDappkitResponse } from '../connectors/valora/valoraUtils'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -58,6 +61,14 @@ const Marginer = styled.div`
 `
 
 export default function App() {
+  const { setValoraAccount } = useValoraAccount()
+  React.useEffect(() => {
+    const resp = parseDappkitResponse(window.location.href)
+    if (resp) {
+      setValoraAccount(resp as AccountAuthResponseSuccess)
+    }
+  }, [setValoraAccount])
+
   return (
     <Suspense fallback={null}>
       <Route component={GoogleAnalyticsReporter} />

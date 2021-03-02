@@ -12,7 +12,7 @@ export const useValora = () => {
   const { account: savedValoraAccount } = useValoraAccount()
 
   useEffect(() => {
-    if (!(connector instanceof ValoraConnector)) {
+    if (connector && !(connector instanceof ValoraConnector)) {
       return
     }
     if (!injectedAccount && savedValoraAccount) {
