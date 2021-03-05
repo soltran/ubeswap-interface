@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { AccountAuthResponseSuccess } from '@celo/utils'
+import { DappKitRequestTypes, DappKitResponseStatus, AccountAuthResponseSuccess, SignTxResponseSuccess } from '@celo/utils'
 import { Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
@@ -64,8 +64,13 @@ export default function App() {
   const { setValoraAccount } = useValoraAccount()
   React.useEffect(() => {
     const resp = parseDappkitResponse(window.location.href)
-    if (resp) {
-      setValoraAccount(resp as AccountAuthResponseSuccess)
+    console.log(resp)
+    if (resp && resp.status===DappKitResponseStatus.SUCCESS) {
+      if (resp.type===DappKitRequestTypes.ACCOUNT_ADDRESS) {
+        setValoraAccount(resp as AccountAuthResponseSuccess)
+      } else if (resp.type===DappKitRequestTypes.SIGN_TX) {
+        console.log(resp as SignTxResponseSuccess)
+      }
     }
   }, [setValoraAccount])
 

@@ -13,6 +13,7 @@ export function useTransactionAdder(): (
   customData?: { summary?: string; approval?: { tokenAddress: string; spender: string }; claim?: { recipient: string } }
 ) => void {
   const { chainId, account } = useActiveWeb3React()
+  console.log(chainId, account)
   const dispatch = useDispatch<AppDispatch>()
 
   return useCallback(
