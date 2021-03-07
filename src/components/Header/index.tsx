@@ -289,6 +289,9 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
+          <StyledNavLink id={`stake-nav-link`} to={'/stake'}>
+            {t('stake')}
+          </StyledNavLink>
           {/* <StyledExternalLink id={`stake-nav-link`} href={'https://info.ubeswap.org'}>
             Charts <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink> */}
