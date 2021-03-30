@@ -1,6 +1,6 @@
-import { CeloContract } from '@celo/contractkit'
+import { CeloContract, CeloToken } from '@celo/contractkit'
 import { createReducer } from '@reduxjs/toolkit'
-import { DEFAULT_DEADLINE_FROM_NOW, FeeCurrency, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
+import { DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from '../../constants'
 import { updateVersion } from '../global/actions'
 import {
   addSerializedPair,
@@ -34,7 +34,7 @@ export interface UserState {
 
   userSingleHopOnly: boolean // only allow swaps on direct pairs
 
-  userFeeCurrency: FeeCurrency // only allow swaps on direct pairs
+  userFeeCurrency: CeloToken
 
   // user defined slippage tolerance in bips, used in all txns
   userSlippageTolerance: number

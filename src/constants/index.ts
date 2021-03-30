@@ -1,4 +1,3 @@
-import { CeloContract } from '@celo/contractkit'
 import { CELO, ChainId, cUSD, JSBI, Percent, Token } from '@ubeswap/sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { injected, ledger, valora } from '../connectors'
@@ -121,5 +120,3 @@ export const BETTER_TRADE_LESS_HOPS_THRESHOLD = new Percent(JSBI.BigInt(50), JSB
 
 export const ZERO_PERCENT = new Percent('0')
 export const ONE_HUNDRED_PERCENT = new Percent('1')
-
-export type FeeCurrency = CeloContract.StableToken | CeloContract.GoldToken

@@ -1,10 +1,11 @@
+import { CeloToken } from '@celo/contractkit'
 import { Pair, Token } from '@ubeswap/sdk'
 import { IValoraAccount } from 'connectors/valora/valoraUtils'
 import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { BASES_TO_TRACK_LIQUIDITY_FOR, FeeCurrency, PINNED_PAIRS } from '../../constants'
+import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
 import { AppDispatch, AppState } from '../index'
@@ -130,13 +131,13 @@ export function useUserSingleHopOnly(): [boolean, (newSingleHopOnly: boolean) =>
   return [singleHopOnly, setSingleHopOnly]
 }
 
-export function useUserFeeCurrency(): [FeeCurrency, (newFeeCurrency: FeeCurrency) => void] {
+export function useUserFeeCurrency(): [CeloToken, (newFeeCurrency: CeloToken) => void] {
   const dispatch = useDispatch<AppDispatch>()
 
   const feeCurrency = useSelector<AppState, AppState['user']['userFeeCurrency']>(state => state.user.userFeeCurrency)
 
   const setFeeCurrency = useCallback(
-    (newFeeCurrency: FeeCurrency) => {
+    (newFeeCurrency: CeloToken) => {
       ReactGA.event({
         category: 'Routing',
         action: `fees in ${newFeeCurrency}`
