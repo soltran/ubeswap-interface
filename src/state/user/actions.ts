@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit'
+import { FeeCurrency } from '../../constants'
 
 export interface SerializedToken {
   chainId: number
@@ -17,6 +18,7 @@ export const updateMatchesDarkMode = createAction<{ matchesDarkMode: boolean }>(
 export const updateUserDarkMode = createAction<{ userDarkMode: boolean }>('user/updateUserDarkMode')
 export const updateUserExpertMode = createAction<{ userExpertMode: boolean }>('user/updateUserExpertMode')
 export const updateUserSingleHopOnly = createAction<{ userSingleHopOnly: boolean }>('user/updateUserSingleHopOnly')
+export const updateUserFeeCurrency = createAction<{ userFeeCurrency: FeeCurrency }>('user/updateUserFeeCurrency')
 export const updateUserSlippageTolerance = createAction<{ userSlippageTolerance: number }>(
   'user/updateUserSlippageTolerance'
 )

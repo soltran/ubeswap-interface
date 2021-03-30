@@ -4,7 +4,7 @@ import flatMap from 'lodash.flatmap'
 import { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from '../../constants'
+import { BASES_TO_TRACK_LIQUIDITY_FOR, FeeCurrency, PINNED_PAIRS } from '../../constants'
 import { useActiveWeb3React } from '../../hooks'
 import { useAllTokens } from '../../hooks/Tokens'
 import { AppDispatch, AppState } from '../index'
@@ -20,6 +20,7 @@ import {
   updateUserDarkMode,
   updateUserDeadline,
   updateUserExpertMode,
+  updateUserFeeCurrency,
   updateUserSingleHopOnly,
   updateUserSlippageTolerance
 } from './actions'
@@ -127,6 +128,25 @@ export function useUserSingleHopOnly(): [boolean, (newSingleHopOnly: boolean) =>
   )
 
   return [singleHopOnly, setSingleHopOnly]
+}
+
+export function useUserFeeCurrency(): [FeeCurrency, (newFeeCurrency: FeeCurrency) => void] {
+  const dispatch = useDispatch<AppDispatch>()
+
+  const feeCurrency = useSelector<AppState, AppState['user']['userFeeCurrency']>(state => state.user.userFeeCurrency)
+
+  const setFeeCurrency = useCallback(
+    (newFeeCurrency: FeeCurrency) => {
+      ReactGA.event({
+        category: 'Routing',
+        action: `fees in ${newFeeCurrency}`
+      })
+      dispatch(updateUserFeeCurrency({ userFeeCurrency: newFeeCurrency }))
+    },
+    [dispatch]
+  )
+
+  return [feeCurrency, setFeeCurrency]
 }
 
 export function useUserSlippageTolerance(): [number, (slippage: number) => void] {
