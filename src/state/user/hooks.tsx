@@ -134,13 +134,13 @@ export function useUserSingleHopOnly(): [boolean, (newSingleHopOnly: boolean) =>
 export function useUserFeeCurrency(): [CeloToken, (newFeeCurrency: CeloToken) => void] {
   const dispatch = useDispatch<AppDispatch>()
 
-  const feeCurrency = useSelector<AppState, AppState['user']['userFeeCurrency']>(state => state.user.userFeeCurrency)
+  const feeCurrency = useSelector<AppState, AppState['user']['userFeeCurrency']>((state) => state.user.userFeeCurrency)
 
   const setFeeCurrency = useCallback(
     (newFeeCurrency: CeloToken) => {
       ReactGA.event({
         category: 'Routing',
-        action: `fees in ${newFeeCurrency}`
+        action: `fees in ${newFeeCurrency}`,
       })
       dispatch(updateUserFeeCurrency({ userFeeCurrency: newFeeCurrency }))
     },
