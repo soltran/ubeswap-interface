@@ -14,7 +14,6 @@ import ReactGA from 'react-ga'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 
-import Logo from './assets/svg/logo.svg'
 import App from './pages/App'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
@@ -112,7 +111,7 @@ ReactDOM.render(
         description:
           'The interface for Ubeswap, a decentralized exchange and automated market maker protocol for Celo assets.',
         url: 'https://app.ubeswap.org',
-        icon: Logo,
+        icon: 'https://info.ubeswap.org/favicon.png',
       }}
       connectModal={{
         reactModalProps: {
