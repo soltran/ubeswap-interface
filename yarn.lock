@@ -1206,10 +1206,10 @@
   resolved "https://registry.yarnpkg.com/@celo-tools/celo-ethers-wrapper/-/celo-ethers-wrapper-0.0.5.tgz#a0bd4553e59c0fc4e97dcec97f719fd27dc4498b"
   integrity sha512-an5TaLv/esjQLEYtF79f8isBUtHEN+ZiHci2H4gVTEAgRgS+nSp5QCq8/LV/biAh9kJJEpojEzlxJALSKu8Klg==
 
-"@celo-tools/use-contractkit@npm:@poofcash/use-contractkit@^1.0.7-beta":
-  version "1.0.7-beta"
-  resolved "https://registry.yarnpkg.com/@poofcash/use-contractkit/-/use-contractkit-1.0.7-beta.tgz#6bfba54ccba6f0c78e3a0808bda754807ef73851"
-  integrity sha512-/6Jq9KyfyVKtDSWk95hCQlfN8iUfG8SBEJgp+UHUjdii/wys95+3aXQ/U89GZ9CksG9TwZGDDn+0A9vrWAqnVQ==
+"@celo-tools/use-contractkit@npm:@poofcash/use-contractkit@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@poofcash/use-contractkit/-/use-contractkit-1.0.8.tgz#122bf67917ff630b1f233f0803e47c45b531c208"
+  integrity sha512-QwYYpS81xzAlpV2iVwax/NQRmpB//nb3106ipzczUArKuEOsCANOnCUymYdQpAgHS71pmlSRB9TR5hqQJxRSxg==
   dependencies:
     "@celo-tools/celo-ethers-wrapper" "^0.0.5"
     "@celo/contractkit" "1.2.4"
