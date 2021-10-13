@@ -2,7 +2,7 @@ import './i18n'
 import '@celo-tools/use-contractkit/lib/styles.css'
 import './index.css'
 
-import { ContractKitProvider } from '@celo-tools/use-contractkit'
+import { CeloMainnet, ContractKitProvider } from '@celo-tools/use-contractkit'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
 import { ChainId } from '@ubeswap/sdk'
@@ -134,6 +134,7 @@ ReactDOM.render(
           overlayClassName: 'tw-fixed tw-bg-gray-100 dark:tw-bg-gray-700 tw-bg-opacity-75 tw-inset-0',
         },
       }}
+      network={CeloMainnet}
     >
       <Provider store={store}>
         <Updaters />
