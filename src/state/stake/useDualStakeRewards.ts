@@ -102,7 +102,7 @@ export const useMultiStakeRewards = (
     const totalRewardRates = [
       new TokenAmount(rewardsToken, totalRewardRateRaw.toString()),
       ...underlyingPool.totalRewardRates,
-    ].sort((a, b) => (a.token?.symbol && b?.token?.symbol ? a.token.symbol.localeCompare(b.token.symbol) : 0))
+    ].sort((a, b) => (a && b ? (a.greaterThan(b) ? 1 : 0) : 0))
 
     const rewardRates = stakedAmount
       ? getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRates)
@@ -111,10 +111,12 @@ export const useMultiStakeRewards = (
     const rewardTokens = [rewardsToken, ...underlyingPool.rewardTokens].sort((a, b) =>
       a?.symbol && b?.symbol ? a.symbol.localeCompare(b.symbol) : 0
     )
-    const earnedAmounts = earned
-      ? zip<BigNumber, Token>(earned, rewardTokens)
+    const sortedEarned = earned?.sort((a, b) => (a && b ? (a.gt(b) ? 1 : 0) : 0))
+
+    const earnedAmounts = sortedEarned
+      ? zip<BigNumber, Token>(sortedEarned, rewardTokens)
           .map(([amount, token]) => new TokenAmount(token as Token, amount?.toString() ?? '0'))
-          .sort((a, b) => (a?.token?.symbol && b?.token?.symbol ? a.token.symbol.localeCompare(b.token.symbol) : 0))
+          .sort((a, b) => (a && b ? (a.greaterThan(b) ? 1 : 0) : 0))
       : undefined
 
     return {
