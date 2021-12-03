@@ -177,9 +177,9 @@ export default function Manage({
             {stakingInfo?.active && (
               <>
                 <TYPE.body style={{ margin: 0 }}>{t('poolRate')}</TYPE.body>
-                {stakingInfo?.totalRewardRates?.map((rewardRate, idx) => {
+                {stakingInfo?.totalRewardRates?.map((rewardRate) => {
                   return (
-                    <TYPE.body fontSize={24} fontWeight={500} key={idx}>
+                    <TYPE.body fontSize={24} fontWeight={500} key={rewardRate.token.symbol}>
                       {rewardRate?.multiply(BIG_INT_SECONDS_IN_WEEK)?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
                       {` ${rewardRate.token.symbol} / week`}
                     </TYPE.body>
@@ -307,7 +307,7 @@ export default function Manage({
                 )}
               </RowBetween>
               {stakingInfo?.rewardRates?.map((rewardRate, idx) => (
-                <RowBetween style={{ alignItems: 'baseline' }} key={idx}>
+                <RowBetween style={{ alignItems: 'baseline' }} key={rewardRate.token.symbol}>
                   <TYPE.largeHeader fontSize={36} fontWeight={600}>
                     {countUpAmounts[idx] ? (
                       <CountUp
