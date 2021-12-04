@@ -102,7 +102,7 @@ export const useMultiStakeRewards = (
       poolInfo: underlyingPool.poolInfo,
       rewardTokens,
     }
-  }, [data, rewardsToken, underlyingPool, address, active])
+  }, [data, rewardsToken, underlyingPool, address, active, externalRewardsTokens])
 }
 
 // because `earned` is just a series of BigNumbers we must somehow match to the Tokens
