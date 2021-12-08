@@ -1,5 +1,4 @@
 import 'rc-drawer/assets/index.css'
-import 'rc-menu/assets/index.css'
 
 import { ChainId, useContractKit } from '@celo-tools/use-contractkit'
 import { CELO, ChainId as UbeswapChainId, TokenAmount } from '@ubeswap/sdk'
