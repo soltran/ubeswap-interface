@@ -1,4 +1,5 @@
 import 'rc-drawer/assets/index.css'
+import 'rc-menu/assets/index.css'
 
 import { ChainId, useContractKit } from '@celo-tools/use-contractkit'
 import { CELO, ChainId as UbeswapChainId, TokenAmount } from '@ubeswap/sdk'
@@ -211,6 +212,14 @@ export const StyledNavLink = styled(NavLink).attrs({
   }
 `
 
+export const StyledNavLinkExtraSmall = styled(StyledNavLink).attrs({
+  activeClassName,
+})`
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+    display: none;
+  `}
+`
+
 const StyledExternalLink = styled(ExternalLink).attrs({
   activeClassName,
 })<{ isActive?: boolean }>`
@@ -273,12 +282,37 @@ export const StyledMenuButton = styled.button`
 
 export const BurgerElement = styled(HeaderElement)`
   display: none;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: flex;  
   `};
 `
 
-export const StyledDrawer = styled(Drawer)``
+export const StyledDrawer = styled(Drawer)`
+  & .drawer-content-wrapper {
+    background: ${({ theme }) => theme.bg1};
+    color: ${({ theme }) => theme.text1};
+  }
+`
+
+export const StyledMenu = styled.ul`
+  padding-left: 0px;
+  list-style: none;
+`
+export const StyledMenuItem = styled.li`
+  padding: 10px 0px 10px 20px;
+`
+export const StyledSubMenuItem = styled(StyledMenuItem)`
+  padding-left: 30px;
+`
+
+const StyledDrawerExternalLink = styled(StyledExternalLink).attrs({
+  activeClassName,
+})<{ isActive?: boolean }>`
+  text-decoration: none;
+  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
+      display: flex;
+`}
+`
 
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.CeloMainnet]: 'Celo',
@@ -347,9 +381,9 @@ export default function Header() {
             {t('farm')}
           </StyledNavLink>
           <BridgeMenuGroup />
-          <StyledNavLink id={`stake-nav-link`} to={'/stake'}>
+          <StyledNavLinkExtraSmall id={`stake-nav-link`} to={'/stake'}>
             {t('stake')}
-          </StyledNavLink>
+          </StyledNavLinkExtraSmall>
           <StyledExternalLink id={`stake-nav-link`} href={'https://info.ubeswap.org'}>
             {t('charts')} <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
@@ -359,12 +393,47 @@ export default function Header() {
           <StyledDrawer
             open={drawerVisible}
             placement={'right'}
-            width={'300px'}
+            width={'250px'}
             level={null}
             handler={false}
             onClose={onDrawerClose}
           >
-            <div>dasfasf</div>
+            <StyledMenu>
+              <StyledMenuItem>
+                <StyledNavLink id={'stake-drawer-nav-link'} to={'#'}>
+                  Bridge
+                </StyledNavLink>
+              </StyledMenuItem>
+              <StyledSubMenuItem>
+                <StyledDrawerExternalLink id={`stake-drawer-nav-link`} href={'https://allbridge.io/'}>
+                  Allbridge
+                </StyledDrawerExternalLink>
+              </StyledSubMenuItem>
+              <StyledSubMenuItem>
+                <StyledDrawerExternalLink id={`stake-drawer-nav-link`} href={'https://anyswap.exchange/#/router'}>
+                  Anyswap
+                </StyledDrawerExternalLink>
+              </StyledSubMenuItem>
+              <StyledSubMenuItem>
+                <StyledDrawerExternalLink id={`stake-drawer-nav-link`} href={'https://optics.app/'}>
+                  Optics
+                </StyledDrawerExternalLink>
+              </StyledSubMenuItem>
+              <StyledMenuItem>
+                <StyledNavLink id={'stake-drawer-nav-link'} to={'/stake'} onClick={onDrawerClose}>
+                  {t('stake')}
+                </StyledNavLink>
+              </StyledMenuItem>
+              <StyledMenuItem>
+                <StyledDrawerExternalLink
+                  id={`stake-drawer-nav-link`}
+                  onClick={onDrawerClose}
+                  href={'https://info.ubeswap.org'}
+                >
+                  {t('charts')}
+                </StyledDrawerExternalLink>
+              </StyledMenuItem>
+            </StyledMenu>
           </StyledDrawer>
         </BurgerElement>
       </HeaderRow>
