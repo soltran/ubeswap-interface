@@ -10,7 +10,6 @@ import usePrevious from 'hooks/usePrevious'
 import { darken } from 'polished'
 import Drawer from 'rc-drawer'
 import React, { useState } from 'react'
-import { isMobile } from 'react-device-detect'
 import { Moon, Sun } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router-dom'
@@ -280,6 +279,20 @@ export const StyledMenuButton = styled.button`
   }
 `
 
+export const StyledDesktopLogo = styled.img`
+  display: inline;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;  
+  `};
+`
+
+export const StyledMobileLogo = styled.img`
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: inline;  
+  `};
+`
+
 export const BurgerElement = styled(HeaderElement)`
   display: none;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
@@ -352,12 +365,8 @@ export default function Header() {
       <HeaderRow>
         <Title to="/">
           <UbeIcon>
-            <img
-              width={isMobile ? '32px' : '140px'}
-              height={isMobile ? '36px' : '26px'}
-              src={isMobile ? Icon : darkMode ? LogoDark : Logo}
-              alt="Ubeswap"
-            />
+            <StyledMobileLogo width={'32px'} height={'36px'} src={Icon} alt="Ubeswap" />
+            <StyledDesktopLogo width={'140px'} height={'26px'} src={darkMode ? LogoDark : Logo} alt="Ubeswap" />
           </UbeIcon>
         </Title>
         <HeaderLinks>
@@ -425,11 +434,7 @@ export default function Header() {
                 </StyledNavLink>
               </StyledMenuItem>
               <StyledMenuItem>
-                <StyledDrawerExternalLink
-                  id={`stake-drawer-nav-link`}
-                  onClick={onDrawerClose}
-                  href={'https://info.ubeswap.org'}
-                >
+                <StyledDrawerExternalLink id={`stake-drawer-nav-link`} href={'https://info.ubeswap.org'}>
                   {t('charts')}
                 </StyledDrawerExternalLink>
               </StyledMenuItem>
