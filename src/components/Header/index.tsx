@@ -1,9 +1,13 @@
+import 'rc-drawer/assets/index.css'
+
 import { ChainId, useContractKit } from '@celo-tools/use-contractkit'
 import { CELO, ChainId as UbeswapChainId, TokenAmount } from '@ubeswap/sdk'
 import { CardNoise } from 'components/earn/styled'
 import Modal from 'components/Modal'
+import Hamburger from 'hamburger-react'
 import usePrevious from 'hooks/usePrevious'
 import { darken } from 'polished'
+import Drawer from 'rc-drawer'
 import React, { useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { Moon, Sun } from 'react-feather'
@@ -267,6 +271,15 @@ export const StyledMenuButton = styled.button`
   }
 `
 
+export const BurgerElement = styled(HeaderElement)`
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: flex;  
+  `};
+`
+
+export const StyledDrawer = styled(Drawer)``
+
 const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
   [ChainId.CeloMainnet]: 'Celo',
   [ChainId.Alfajores]: 'Alfajores',
@@ -286,6 +299,16 @@ export default function Header() {
   const aggregateBalance: TokenAmount | undefined = useAggregateUbeBalance()
   const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
   const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
+
+  const [drawerVisible, setDrawerVisible] = useState<boolean>(false)
+
+  const onDrawerClose = () => {
+    setDrawerVisible(false)
+  }
+
+  const onToggle = (toggled: boolean) => {
+    setDrawerVisible(toggled)
+  }
 
   return (
     <HeaderFrame>
@@ -331,6 +354,19 @@ export default function Header() {
             {t('charts')} <span style={{ fontSize: '11px' }}>↗</span>
           </StyledExternalLink>
         </HeaderLinks>
+        <BurgerElement>
+          <Hamburger size={18} hideOutline={false} label="show menu" toggled={drawerVisible} onToggle={onToggle} />
+          <StyledDrawer
+            open={drawerVisible}
+            placement={'right'}
+            width={'300px'}
+            level={null}
+            handler={false}
+            onClose={onDrawerClose}
+          >
+            <div>dasfasf</div>
+          </StyledDrawer>
+        </BurgerElement>
       </HeaderRow>
       <HeaderControls>
         <HeaderElement>
