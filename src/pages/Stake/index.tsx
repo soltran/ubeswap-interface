@@ -3,10 +3,11 @@ import { TokenAmount } from '@ubeswap/sdk'
 import { ButtonEmpty, ButtonLight, ButtonPrimary, ButtonRadio } from 'components/Button'
 import { GreyCard, YellowCard } from 'components/Card'
 import { AutoColumn } from 'components/Column'
-import CurrencyInputPanel from 'components/CurrencyInputPanel'
+import CurrencyLogo from 'components/CurrencyLogo'
 import { CardNoise, CardSection, DataCard } from 'components/earn/styled'
 import Loader from 'components/Loader'
 import { AutoRow, RowBetween } from 'components/Row'
+import StakeInputField from 'components/Stake/StakeInputField'
 import { useDoTransaction } from 'components/swap/routing'
 import { VotableStakingRewards__factory } from 'generated/factories/VotableStakingRewards__factory'
 import { ApprovalState, useApproveCallback } from 'hooks/useApproveCallback'
@@ -45,6 +46,11 @@ const Wrapper = styled.div({
   margin: '0px 24px',
 })
 
+const DescriptionWrapper = styled.div({
+  display: 'flex',
+  justifyContent: 'space-between',
+})
+
 const ube = new WrappedTokenInfo(
   {
     address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
@@ -81,7 +87,7 @@ export const Stake: React.FC = () => {
 
   const apy = totalSupply.greaterThan('0') ? rewardRate.multiply(BIG_INT_SECONDS_IN_YEAR).divide(totalSupply) : null
   const userRewardRate = totalSupply.greaterThan('0') ? stakeBalance.multiply(rewardRate).divide(totalSupply) : null
-
+  console.log('tttttt', userRewardRate)
   const doTransaction = useDoTransaction()
   const onStakeClick = useCallback(async () => {
     const c = VotableStakingRewards__factory.connect(VOTABLE_STAKING_REWARDS_ADDRESS, await getConnectedSigner())
@@ -162,7 +168,7 @@ export const Stake: React.FC = () => {
   return (
     <>
       <TopSection gap="md">
-        <DataCard style={{ marginBottom: '32px' }}>
+        <DataCard style={{ marginBottom: '2px' }}>
           <CardNoise />
           <CardSection>
             <AutoColumn gap="md">
@@ -171,7 +177,15 @@ export const Stake: React.FC = () => {
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  Stake UBE to automatically participate in governance and earn UBE rewards.
+                  Stake UBE to automatically participate in governance and earn UBE rewards. You can&nbsp;
+                  <ExternalLink
+                    style={{ color: 'white', textDecoration: 'underline' }}
+                    target="_blank"
+                    href="https://romulus.page/romulus/0xa7581d8E26007f4D2374507736327f5b46Dd6bA8"
+                  >
+                    update
+                  </ExternalLink>
+                  &nbsp;your governance selection at anytime
                 </TYPE.white>
               </RowBetween>
             </AutoColumn>
@@ -179,22 +193,30 @@ export const Stake: React.FC = () => {
           <CardNoise />
         </DataCard>
         <div style={{ textAlign: 'center' }}>
-          <h2>Your UBE stake: {stakeBalance ? stakeBalance.toFixed(2, { groupSeparator: ',' }) : '--'} UBE</h2>
+          {/* <h2>Your UBE stake: {stakeBalance ? stakeBalance.toFixed(2, { groupSeparator: ',' }) : '--'} UBE</h2> */}
           {userRewardRate?.greaterThan('0') ? (
             <YellowCard style={{ marginBottom: '16px' }}>
-              <h3>
-                Your weekly rewards:{' '}
-                {userRewardRate
-                  ? userRewardRate.multiply(BIG_INT_SECONDS_IN_WEEK).toFixed(2, { groupSeparator: ',' })
-                  : '--'}{' '}
-                UBE / week
-              </h3>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <h3>Unclaimed UBE: {userRewardRate ? earned.toFixed(4, { groupSeparator: ',' }) : '--'}</h3>
-                <ButtonEmpty padding="8px" borderRadius="8px" width="fit-content" onClick={onClaimClick}>
-                  {t('claim')}
-                </ButtonEmpty>
-              </div>
+              <DescriptionWrapper>
+                <h3>Your weekly rewards</h3>
+                <h3>
+                  {userRewardRate
+                    ? userRewardRate.multiply(BIG_INT_SECONDS_IN_WEEK).toFixed(2, { groupSeparator: ',' })
+                    : '--'}{' '}
+                </h3>
+              </DescriptionWrapper>
+              <DescriptionWrapper>
+                <h3>Annual stake APR</h3>
+                <h3>{apy?.multiply('100').toFixed(2, { groupSeparator: ',' }) ?? '--'}%</h3>
+              </DescriptionWrapper>
+              <DescriptionWrapper>
+                <h3>Unclaimed Rewards</h3>
+                <div style={{ display: 'flex' }}>
+                  <h3>{userRewardRate ? earned.toFixed(4, { groupSeparator: ',' }) : '--'}</h3>
+                  <ButtonEmpty padding="8px" borderRadius="8px" width="fit-content" onClick={onClaimClick}>
+                    {t('claim')}
+                  </ButtonEmpty>
+                </div>
+              </DescriptionWrapper>
             </YellowCard>
           ) : (
             <h3>
@@ -228,7 +250,13 @@ export const Stake: React.FC = () => {
         </div>
       </TopSection>
       <BodyWrapper style={{ marginTop: '16px' }}>
-        <div style={{ marginTop: '8px', display: 'flex', justifyContent: 'center' }}>
+        <CurrencyLogo
+          currency={ube}
+          size={'42px'}
+          style={{ position: 'absolute', top: '30px', right: 'calc(50% + 120px)' }}
+        />
+        <h2 style={{ textAlign: 'center', margin: '15px 0px' }}>Your UBE stake</h2>
+        <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'center' }}>
           <div style={{ width: '100px' }}>
             <StyledButtonRadio active={staking} onClick={() => setStaking(true)}>
               Stake
@@ -240,14 +268,13 @@ export const Stake: React.FC = () => {
             </StyledButtonRadio>
           </div>
         </div>
+
         <Wrapper>
           <div style={{ margin: '32px 0px' }}>
-            <CurrencyInputPanel
+            <StakeInputField
               id="stake-currency"
               value={amount}
               onUserInput={setAmount}
-              label={t('amount')}
-              showMaxButton
               onMax={() => {
                 if (staking) {
                   ubeBalance && setAmount(ubeBalance.toSignificant(18))
@@ -256,8 +283,8 @@ export const Stake: React.FC = () => {
                 }
               }}
               currency={ube}
-              disableCurrencySelect
-              balanceOverride={staking ? ubeBalance : stakeBalance}
+              stakeBalance={stakeBalance}
+              walletBalance={ubeBalance}
             />
           </div>
           <div style={{ marginBottom: '16px' }}>{button}</div>
